@@ -1,0 +1,34 @@
+{
+  "name": "pgtrans",
+  "version": "0.1.0",
+  "description": "Function to help deal with your Postgres transactions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "async": "^2.5.0"
+  },
+  "devDependencies": {
+    "pg": "^7.0.2"
+  },
+  "homepage": "https://github.com/chilts/pgtrans#readme",
+  "bugs": {
+    "url": "https://github.com/chilts/pgtrans/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chilts/pgtrans.git"
+  },
+  "author": "Andrew Chilton <andychilton@gmail.com>",
+  "keywords": [
+    "pg",
+    "transaction",
+    "postgres",
+    "postgresql",
+    "begin",
+    "commit",
+    "rollback"
+  ],
+  "license": "ISC"
+}
