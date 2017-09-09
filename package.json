@@ -1,6 +1,6 @@
 {
   "name": "pgtrans",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Function to help deal with your Postgres transactions.",
   "main": "index.js",
   "scripts": {
