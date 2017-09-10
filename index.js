@@ -78,7 +78,7 @@ function pgtrans(pool, fn, callback) {
       },
       // commit transaction transaction
       (done) => {
-        client.query('BEGIN', done)
+        client.query('COMMIT', done)
       },
     ],
     (err) => {
