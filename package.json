@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "async": "^2.5.0"
+    "async": "^2.5.0",
+    "debug": "^3.0.1"
   },
   "devDependencies": {
     "pg": "^7.0.2"
