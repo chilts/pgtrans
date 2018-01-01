@@ -64,6 +64,9 @@ function pgtrans(pool, fn, callback) {
   let client
   let releaseClient
 
+  // these are the values to return to `callback` that we get from `fn`
+  let values
+
   async.series(
     [
       // get a client
@@ -88,7 +91,13 @@ function pgtrans(pool, fn, callback) {
       // call the user function
       (done) => {
         debug('pgtrans(): calling user function ...')
-        fn(client, done)
+        fn(client, function(err) {
+          // remember everything but `err` so we can return it in the end
+          values = Array.prototype.slice.call(arguments, 1)
+
+          // but here, return everything we got including err
+          done.apply(null, Array.prototype.slice.call(arguments))
+        })
       },
       // commit transaction transaction
       (done) => {
@@ -99,7 +108,10 @@ function pgtrans(pool, fn, callback) {
     (err) => {
       // call the cleanup function to do all the important stuff for us
       debug('pgtrans() - err:', err)
-      cleanup(err, client, releaseClient, callback)
+      cleanup(err, client, releaseClient, function(err) {
+        // and finally, return with the final error plus the values we returned earlier
+        callback.apply(null, [ err, ...values ])
+      })
     }
   )
 }
