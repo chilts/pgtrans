@@ -20,24 +20,26 @@ const pool = new pg.Pool({
 // Any function you want to run between BEGIN and COMMIT.
 // Return an error to rollback.
 
-function selCount(client, callback) {
+function userCount(client, done) {
   client.query("SELECT count(*) AS count FROM users", (err, res) => {
-    if (err) return callback(err)
-    console.log('count:', res.rows[0].count)
-    callback()
+    if (err) return done(err)
+    done(null, res.rows[0].count)
   })
 }
 
 // run the function in a transaction
 pgtrans(
   pool,
-  selCount,
+  userCount,
   (err, count) => {
     if (err) {
       console.warn('' + err)
     }
+
     console.log('Number of users:', count)
-    // end the pool so the program can quit
+
+    // End the pool so the program can quit.
+    // (You wouldn't usually do this here.)
     pool.end()
   }
 )
@@ -65,16 +67,25 @@ const pool = new pg.Pool({
 When returning values from your function, these will be returned along with any error encountered, or `null` if no error occurred.
 
 ```js
-function selCount(client, callback) {
+function userCount(client, done) {
   client.query("SELECT count(*) AS count FROM users", (err, res) => {
-    if (err) return callback(err)
-    console.log('count:', res.rows[0].count)
-    callback()
+    if (err) return done(err)
+    // pass back some results
+    done(null, res.rows[0].count)
   })
 }
 ```
 
 As you can see, the count is returned.
+
+```
+userCount(pool, (err, count) => {
+  // ToDo: check err.
+  console.log('count:', count)
+})
+```
+
+You can return any number of values depending on the needs of your transaction.
 
 ## Author ##
 
